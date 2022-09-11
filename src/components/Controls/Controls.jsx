@@ -8,17 +8,33 @@ import SkipNext from "@mui/icons-material/SkipNext";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 
 import "./Controls.scss";
+import { useSelector } from "react-redux";
 
-function Controls() {
+function Controls({ play, pause }) {
+  const playing = useSelector((state) => state.playing);
+
+  const onClickPlay = () => {
+    play();
+  };
+
+  const onClickPause = () => {
+    pause();
+  };
   return (
     <div className="control-area">
       <QueueMusic sx={{ fontSize: 30, cursor: "pointer" }} />
       <Repeat sx={{ fontSize: 30, cursor: "pointer" }} />
       <SkipPrevious sx={{ fontSize: 30, cursor: "pointer" }} />
-      {true ? (
-        <Pause sx={{ fontSize: 30, cursor: "pointer" }} />
+      {playing ? (
+        <Pause
+          sx={{ fontSize: 30, cursor: "pointer" }}
+          onClick={onClickPause}
+        />
       ) : (
-        <PlayArrow sx={{ fontSize: 30, cursor: "pointer" }} />
+        <PlayArrow
+          sx={{ fontSize: 30, cursor: "pointer" }}
+          onClick={onClickPlay}
+        />
       )}
       <SkipNext sx={{ fontSize: 30, cursor: "pointer" }} />
       <div className="volume-container">

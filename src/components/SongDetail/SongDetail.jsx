@@ -1,12 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import img1 from "../../images/music-1.jpg";
 import "./SongDetail.scss";
 
 function SongDetail() {
+  const playing = useSelector((state) => state.playing);
   return (
     <>
       <div className="header">
-        <span>{true ? "Now Playing" : "Not Plyaing"}</span>
+        <span>{playing ? "Now Playing" : "Not Plyaing"}</span>
       </div>
       <div className="img-area">
         <img src={img1} alt="이미지1"></img>
