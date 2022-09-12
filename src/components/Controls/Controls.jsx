@@ -10,7 +10,7 @@ import VolumeUp from "@mui/icons-material/VolumeUp";
 import "./Controls.scss";
 import { useSelector } from "react-redux";
 
-function Controls({ play, pause }) {
+function Controls({ play, pause, changeVolume }) {
   const playing = useSelector((state) => state.playing);
 
   const onClickPlay = () => {
@@ -20,6 +20,11 @@ function Controls({ play, pause }) {
   const onClickPause = () => {
     pause();
   };
+
+  const onChangeVolume = (event) => {
+    changeVolume(event.target.value);
+  };
+
   return (
     <div className="control-area">
       <QueueMusic sx={{ fontSize: 30, cursor: "pointer" }} />
@@ -43,6 +48,7 @@ function Controls({ play, pause }) {
           type="range"
           style={{ cursor: "pointer" }}
           defaultValue={1}
+          onChange={onChangeVolume}
           min="0"
           max="1"
           step="0.1"
