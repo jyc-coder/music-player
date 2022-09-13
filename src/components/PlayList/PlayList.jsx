@@ -5,7 +5,10 @@ import PlayListItem from "./PlayListItem";
 import "./PlayList.scss";
 import SortableList from "@jyc-coder/sortable";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentIndex } from "../../store/musicPlayerReducer";
+import {
+  setCurrentIndex,
+  updatePlayList,
+} from "../../store/musicPlayerReducer";
 
 const PlayList = ({ showPlayList, setshowPlayList }) => {
   const playList = useSelector((state) => state.playList);
@@ -20,6 +23,10 @@ const PlayList = ({ showPlayList, setshowPlayList }) => {
 
   const onClickItem = (index) => {
     dispatch(setCurrentIndex(index));
+  };
+
+  const onDropItem = (newPlayList) => {
+    dispatch(updatePlayList(newPlayList));
   };
 
   return (
@@ -38,6 +45,7 @@ const PlayList = ({ showPlayList, setshowPlayList }) => {
         data={playList}
         renderItem={renderItem}
         onClickItem={onClickItem}
+        onDropItem={onDropItem}
       />
     </div>
   );
