@@ -2,26 +2,43 @@ import React from "react";
 import classNames from "classnames";
 import { Close, QueueMusic } from "@mui/icons-material";
 import PlayListItem from "./PlayListItem";
-import MusicList from "../../store/data";
 import "./PlayList.scss";
+import SortableList from "@jyc-coder/sortable";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentIndex } from "../../store/musicPlayerReducer";
 
-const PlayList = () => {
+const PlayList = ({ showPlayList, setshowPlayList }) => {
+  const playList = useSelector((state) => state.playList);
+  const dispatch = useDispatch();
+  const onClickClosePlayList = () => {
+    setshowPlayList(false);
+  };
+
+  const renderItem = (item, index) => (
+    <PlayListItem item={item} index={index} />
+  );
+
+  const onClickItem = (index) => {
+    dispatch(setCurrentIndex(index));
+  };
+
   return (
-    <div className={classNames("play-list")}>
+    <div className={classNames("play-list", { show: showPlayList })}>
       <div className="header">
         <div className="row">
           <QueueMusic className="list" />
           <span>Playlist</span>
         </div>
-        <Close sx={{ fontSize: 22, cursor: "pointer" }} />
+        <Close
+          sx={{ fontSize: 22, cursor: "pointer" }}
+          onClick={onClickClosePlayList}
+        />
       </div>
-      <ul>
-        {MusicList.map((item, index) => (
-          <li key={index}>
-            <PlayListItem item={item} index={index} />
-          </li>
-        ))}
-      </ul>
+      <SortableList
+        data={playList}
+        renderItem={renderItem}
+        onClickItem={onClickItem}
+      />
     </div>
   );
 };

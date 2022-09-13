@@ -62,6 +62,7 @@ const STOP_MUSIC = "musicPlayer/STOP_MUSIC";
 const NEXT_MUSIC = "musicPlayer/NEXT_MUSIC";
 const PREV_MUSIC = "musicPlayer/PREV_MUSIC";
 const SET_REPEAT = "musicPlayer/SET_REPEAT";
+const SET_CURRENT_INDEX = "musicPlayer/SET_CURRENT_INDEX";
 
 //액션 크리에이터
 const repeatMode = ["ONE", "ALL", "SHUFFLE"];
@@ -70,6 +71,7 @@ export const stopMusic = () => ({ type: STOP_MUSIC });
 export const nextMusic = () => ({ type: NEXT_MUSIC });
 export const prevMusic = () => ({ type: PREV_MUSIC });
 export const setRepeat = () => ({ type: SET_REPEAT });
+export const setCurrentIndex = (index) => ({ type: SET_CURRENT_INDEX, index });
 
 const getRandomNum = (arr, excludeNum) => {
   const randomNumber = Math.floor(Math.random() * arr.length);
@@ -125,6 +127,12 @@ export default function musicPlayerReducer(state = initialState, action) {
           repeatMode[
             (repeatMode.indexOf(state.repeat) + 1) % repeatMode.length
           ],
+      };
+    case SET_CURRENT_INDEX:
+      return {
+        ...state,
+        currentIndex: action.index,
+        currentMusicId: state.playList[action.index].id,
       };
     default:
       return state;
