@@ -37,7 +37,7 @@ const RepeatButton = ({ repeat, ...props }) => {
   }
 };
 
-function Controls({ play, pause, changeVolume }) {
+function Controls({ play, pause, changeVolume, resetDuration }) {
   const playing = useSelector((state) => state.playing);
   const repeat = useSelector((state) => state.repeat);
   const dispatch = useDispatch();
@@ -54,11 +54,19 @@ function Controls({ play, pause, changeVolume }) {
   };
 
   const onClickPrevious = () => {
-    dispatch(prevMusic());
+    if (repeat === "ONE") {
+      resetDuration();
+    } else {
+      dispatch(prevMusic());
+    }
   };
 
   const onClickNext = () => {
-    dispatch(nextMusic());
+    if (repeat === "ONE") {
+      resetDuration();
+    } else {
+      dispatch(nextMusic());
+    }
   };
 
   const onClickRepeat = () => {

@@ -1,5 +1,6 @@
 import React, {
   forwardRef,
+  useCallback,
   useImperativeHandle,
   useRef,
   useState,
@@ -18,10 +19,11 @@ function ProgressBar(props, ref) {
   const dispatch = useDispatch();
   const [currentTime, setcurrentTime] = useState("00:00");
   const [duration, setDuration] = useState("00:00");
-  const { playList, currentIndex } = useSelector(
+  const { playList, currentIndex, repeat } = useSelector(
     (state) => ({
       playList: state.playList,
       currentIndex: state.currentIndex,
+      repeat: state.repeat,
     }),
     shallowEqual
   );
@@ -35,6 +37,9 @@ function ProgressBar(props, ref) {
     },
     changeVolume: (volume) => {
       audio.current.volume = volume;
+    },
+    resetDuration: () => {
+      audio.current.currentTime = 0;
     },
   }));
 
@@ -69,9 +74,14 @@ function ProgressBar(props, ref) {
     dispatch(stopMusic());
   };
 
-  const onEnded = () => {
-    dispatch(nextMusic());
-  };
+  const onEnded = useCallback(() => {
+    if (repeat === "ONE") {
+      audio.current.currentTime = 0;
+      audio.current.play();
+    } else {
+      dispatch(nextMusic());
+    }
+  }, [repeat, dispatch]);
   return (
     <div className="progress-area" onMouseDown={onClickProgress}>
       <div className="progress-bar" ref={progressBar}>
