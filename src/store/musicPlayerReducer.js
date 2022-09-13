@@ -59,10 +59,14 @@ const initialState = {
 //액션 타입 생성
 const PLAY_MUSIC = "musicPlayer/PLAY_MUSIC";
 const STOP_MUSIC = "musicPlayer/STOP_MUSIC";
+const NEXT_MUSIC = "musicPlayer/NEXT_MUSIC";
+const PREV_MUSIC = "musicPlayer/PREV_MUSIC";
 
 //액션 크리에이터
 export const playMusic = () => ({ type: PLAY_MUSIC });
 export const stopMusic = () => ({ type: STOP_MUSIC });
+export const nextMusic = () => ({ type: NEXT_MUSIC });
+export const prevMusic = () => ({ type: PREV_MUSIC });
 
 //리듀서
 export default function musicPlayerReducer(state = initialState, action) {
@@ -76,6 +80,22 @@ export default function musicPlayerReducer(state = initialState, action) {
       return {
         ...state,
         playing: false,
+      };
+    case NEXT_MUSIC:
+      const nextIndex = (state.currentIndex + 1) % state.playList.length;
+      return {
+        ...state,
+        currentIndex: nextIndex,
+        currentMusicId: state.playList[nextIndex].id,
+      };
+    case PREV_MUSIC:
+      const prevIndex =
+        (state.currentIndex - 1 + state.playList.length) %
+        state.playList.length;
+      return {
+        ...state,
+        currentIndex: prevIndex,
+        currentMusicId: state.playList[prevIndex].id,
       };
     default:
       return state;
