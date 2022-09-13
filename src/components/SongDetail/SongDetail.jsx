@@ -1,21 +1,25 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import img1 from "../../images/music-1.jpg";
 import "./SongDetail.scss";
 
 function SongDetail() {
   const playing = useSelector((state) => state.playing);
+  const playList = useSelector((state) => state.playList);
+  const currentIndex = useSelector((state) => state.currentIndex);
   return (
     <>
       <div className="header">
         <span>{playing ? "Now Playing" : "Not Plyaing"}</span>
       </div>
       <div className="img-area">
-        <img src={img1} alt="이미지1"></img>
+        <img
+          src={playList[currentIndex].img}
+          alt={playList[currentIndex].name}
+        ></img>
       </div>
       <div className="music-info">
-        <p className="song">멋있는 음악제목</p>
-        <p className="artist">아티스트</p>
+        <p className="song">{playList[currentIndex].name}</p>
+        <p className="artist">{playList[currentIndex].artist}</p>
       </div>
     </>
   );
