@@ -37,7 +37,13 @@ const RepeatButton = ({ repeat, ...props }) => {
   }
 };
 
-function Controls({ play, pause, changeVolume, resetDuration }) {
+function Controls({
+  play,
+  pause,
+  changeVolume,
+  resetDuration,
+  setshowPlayList,
+}) {
   const playing = useSelector((state) => state.playing);
   const repeat = useSelector((state) => state.repeat);
   const dispatch = useDispatch();
@@ -73,9 +79,16 @@ function Controls({ play, pause, changeVolume, resetDuration }) {
     dispatch(setRepeat());
   };
 
+  const onClickShowPlayList = () => {
+    setshowPlayList(true);
+  };
+
   return (
     <div className="control-area">
-      <QueueMusic sx={{ fontSize: 30, cursor: "pointer" }} />
+      <QueueMusic
+        sx={{ fontSize: 30, cursor: "pointer" }}
+        onClick={onClickShowPlayList}
+      />
 
       <RepeatButton repeat={repeat} onClick={onClickRepeat} />
 
