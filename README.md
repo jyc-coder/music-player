@@ -11,7 +11,7 @@
  
 
 
-# 예상 기술
+# 사용 기술
 
 - javascript + react 프레임워크
 - 컴포넌트 배포를 위한 npm 
@@ -31,4 +31,8 @@
 # 헤로쿠 배포 페이지
 
 https://music-player-jyc.herokuapp.com/
+
+# 구현 모습
+![ezgif com-gif-maker (39)](https://user-images.githubusercontent.com/56331400/190328717-86510ecd-cba5-43da-9f7c-ac5c7fd27b12.gif)
+
 
