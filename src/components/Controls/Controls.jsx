@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useCallback } from "react";
 import QueueMusic from "@mui/icons-material/QueueMusic";
 import Repeat from "@mui/icons-material/Repeat";
 import Pause from "@mui/icons-material/Pause";
@@ -17,7 +17,7 @@ import {
   setRepeat,
 } from "../../store/musicPlayerReducer";
 
-const RepeatButton = ({ repeat, ...props }) => {
+const RepeatButton = memo(({ repeat, ...props }) => {
   switch (repeat) {
     case "ALL":
       return <Repeat sx={{ fontSize: 30, cursor: "pointer" }} {...props} />;
@@ -35,7 +35,7 @@ const RepeatButton = ({ repeat, ...props }) => {
     default:
       return null;
   }
-};
+});
 
 function Controls({
   play,
@@ -47,41 +47,44 @@ function Controls({
   const playing = useSelector((state) => state.playing);
   const repeat = useSelector((state) => state.repeat);
   const dispatch = useDispatch();
-  const onClickPlay = () => {
+  const onClickPlay = useCallback(() => {
     play();
-  };
+  }, [play]);
 
-  const onClickPause = () => {
+  const onClickPause = useCallback(() => {
     pause();
-  };
+  }, [pause]);
 
-  const onChangeVolume = (event) => {
-    changeVolume(event.target.value);
-  };
+  const onChangeVolume = useCallback(
+    (event) => {
+      changeVolume(event.target.value);
+    },
+    [changeVolume]
+  );
 
-  const onClickPrevious = () => {
+  const onClickPrevious = useCallback(() => {
     if (repeat === "ONE") {
       resetDuration();
     } else {
       dispatch(prevMusic());
     }
-  };
+  }, [repeat, resetDuration, dispatch]);
 
-  const onClickNext = () => {
+  const onClickNext = useCallback(() => {
     if (repeat === "ONE") {
       resetDuration();
     } else {
       dispatch(nextMusic());
     }
-  };
+  }, [repeat, resetDuration, dispatch]);
 
-  const onClickRepeat = () => {
+  const onClickRepeat = useCallback(() => {
     dispatch(setRepeat());
-  };
+  }, [dispatch]);
 
-  const onClickShowPlayList = () => {
+  const onClickShowPlayList = useCallback(() => {
     setshowPlayList(true);
-  };
+  }, [setshowPlayList]);
 
   return (
     <div className="control-area">
@@ -127,4 +130,4 @@ function Controls({
   );
 }
 
-export default Controls;
+export default memo(Controls);
