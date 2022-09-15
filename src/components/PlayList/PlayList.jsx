@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useCallback } from "react";
 import classNames from "classnames";
 import { Close, QueueMusic } from "@mui/icons-material";
 import PlayListItem from "./PlayListItem";
@@ -13,21 +13,28 @@ import {
 const PlayList = ({ showPlayList, setshowPlayList }) => {
   const playList = useSelector((state) => state.playList);
   const dispatch = useDispatch();
-  const onClickClosePlayList = () => {
+  const onClickClosePlayList = useCallback(() => {
     setshowPlayList(false);
-  };
+  }, [setshowPlayList]);
 
-  const renderItem = (item, index) => (
-    <PlayListItem item={item} index={index} />
+  const renderItem = useCallback(
+    (item, index) => <PlayListItem item={item} index={index} />,
+    []
   );
 
-  const onClickItem = (index) => {
-    dispatch(setCurrentIndex(index));
-  };
+  const onClickItem = useCallback(
+    (index) => {
+      dispatch(setCurrentIndex(index));
+    },
+    [dispatch]
+  );
 
-  const onDropItem = (newPlayList) => {
-    dispatch(updatePlayList(newPlayList));
-  };
+  const onDropItem = useCallback(
+    (newPlayList) => {
+      dispatch(updatePlayList(newPlayList));
+    },
+    [dispatch]
+  );
 
   return (
     <div className={classNames("play-list", { show: showPlayList })}>
@@ -51,4 +58,4 @@ const PlayList = ({ showPlayList, setshowPlayList }) => {
   );
 };
 
-export default PlayList;
+export default memo(PlayList);
